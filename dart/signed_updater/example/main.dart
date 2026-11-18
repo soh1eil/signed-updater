@@ -9,13 +9,16 @@ Future<void> main() async {
     config: UpdaterConfig(
       manifestUrl: Uri.parse('https://example.com/updates/linux.json'),
       // Output of `updsign keygen`, compiled into the app. Never fetched.
-      publicKeys: ['0000000000000000000000000000000000000000000000000000000000000000'],
+      publicKeys: [
+        '0000000000000000000000000000000000000000000000000000000000000000'
+      ],
       context: 'myapp-update-v1', // must equal updsign's -context
       platform: 'linux',
       currentVersion: '1.0.0',
       currentBuild: 1,
     ),
-    stateStore: FileStateStore('${Directory.systemTemp.path}/myapp-update-state.json'),
+    stateStore:
+        FileStateStore('${Directory.systemTemp.path}/myapp-update-state.json'),
     installer: LinuxInstaller('/opt/myapp/MyApp.AppImage'),
   );
   try {
