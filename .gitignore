@@ -1,0 +1,6 @@
+*.key
+*.hex
+.dart_tool/
+pubspec.lock
+/updsign
+/bin/

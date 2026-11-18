@@ -1,0 +1,40 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - run: test -z "$(gofmt -l .)"
+      - run: go vet ./...
+      - run: go test -race ./...
+      - name: Fixtures are up to date
+        run: |
+          go test ./manifest -run Interop -update
+          git diff --exit-code testdata/interop.json
+      - name: Fuzz (short)
+        run: |
+          go test ./manifest -run xxx -fuzz FuzzParse -fuzztime 30s
+          go test ./signing -run xxx -fuzz FuzzValidRelativeURL -fuzztime 15s
+
+  dart:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dart/signed_updater
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart pub get
+      - run: dart format --set-exit-if-changed .
+      - run: dart analyze --fatal-infos
+      - run: dart test

@@ -1,0 +1,20 @@
+name: signed_updater
+description: >-
+  Secure self-update for desktop apps: Ed25519-signed manifests, a pinned
+  public key, streaming download with re-hash, rollback protection and
+  pluggable per-platform installers. Pure Dart, works inside Flutter apps.
+version: 0.1.0
+repository: https://github.com/soh1eil/signed-updater
+issue_tracker: https://github.com/soh1eil/signed-updater/issues
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  cryptography: ^2.7.0
+  http: ^1.2.0
+  path: ^1.9.0
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.25.0
